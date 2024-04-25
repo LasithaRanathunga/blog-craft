@@ -10,6 +10,8 @@ import {
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <nav className="flex p-4 relative items-center justify-between">
@@ -19,7 +21,9 @@ export default function Navbar() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Home</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              <Link to="/home">Home</Link>
+            </NavigationMenuTrigger>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Aricles</NavigationMenuTrigger>
