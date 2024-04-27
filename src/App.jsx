@@ -1,6 +1,7 @@
 import Root from "./ui/Root";
 import Home from "./pages/Home/Home";
 import Admin from "./pages/admin/Admin";
+import Editor from "./pages/admin/Editor";
 
 import {
   createBrowserRouter,
@@ -21,9 +22,16 @@ const router = createBrowserRouter([
         path: "home",
         element: <Home />,
       },
+    ],
+  },
+
+  {
+    path: "admin",
+    element: <Admin />,
+    children: [
       {
-        path: "admin",
-        element: <Admin />,
+        path: "new-article",
+        element: <Editor />,
       },
     ],
   },
