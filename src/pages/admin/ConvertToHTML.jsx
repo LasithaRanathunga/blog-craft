@@ -1,5 +1,5 @@
 import EditorJS from "@editorjs/editorjs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Fragment } from "react";
 
 import Header from "@editorjs/header";
@@ -12,7 +12,10 @@ import edjsHTML from "editorjs-html";
 
 export default function ConvertToHTML({ dataArr }) {
   const ref = useRef(null);
-  console.log(dataArr);
+
+  const [isReady, setIsReady] = useState(false);
+  const [htmlData, setHtmlData] = useState(null);
+
   useEffect(() => {
     if (!ref.current) {
       const editor = new EditorJS({
@@ -49,10 +52,14 @@ export default function ConvertToHTML({ dataArr }) {
               placeholder: "Paste image URL",
             },
           },
-          data: {
-            time: 1552744582955,
-            blocks: dataArr,
-          },
+        },
+        data: {
+          time: 1552744582955,
+          blocks: dataArr,
+        },
+        onReady: () => {
+          console.log("Editor.js is ready to work!");
+          setIsReady(true);
         },
       });
       ref.current = editor;
@@ -64,40 +71,48 @@ export default function ConvertToHTML({ dataArr }) {
         ref.current.destroy();
       }
     };
-  }, []);
+  }, [dataArr]);
 
   function show() {
     ref.current
       .save()
       .then((outputData) => {
-        console.log("Article data: ", outputData.blocks);
-
         let innerHTML = "";
 
         const edjsParser = edjsHTML();
         const HTML = edjsParser.parse(outputData);
         // returns array of html strings per block
-        console.log(HTML);
 
         HTML.forEach((element) => {
           innerHTML += element;
         });
 
-        console.log(innerHTML);
+        //setHtmlcontent(innerHTML);
+
+        // make a new parser
+        const parser = new DOMParser();
+
+        // convert html string into DOM
+        const document = parser.parseFromString(innerHTML, "text/html");
+
+        document.body.firstChild.remove();
+
+        setHtmlData(innerHTML);
       })
       .catch((error) => {
         console.log("Saving failed: ", error);
       });
   }
 
-  // console.log(show());
-
   return (
     <Fragment className="h-vh">
-      <div
-        id="editorjs"
-        className="border-gray-200 border-2 rounded-md h-5/6 overflow-auto"
-      ></div>
+      <div id="editorjs" className="hidden"></div>
+      {isReady ? console.log(show()) : null}
+      {htmlData ? (
+        <section dangerouslySetInnerHTML={{ __html: htmlData }}></section>
+      ) : (
+        "Loading"
+      )}
     </Fragment>
   );
 }

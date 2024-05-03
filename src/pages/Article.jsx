@@ -6,8 +6,7 @@ export default function Article() {
   const data = useLoaderData();
 
   return (
-    <div>
-      Article
+    <div className="mx-16">
       <ConvertToHTML dataArr={data.data} />
     </div>
   );
