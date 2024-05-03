@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 
-export default function ArticleCard() {
+import { Link } from "react-router-dom";
+
+export default function ArticleCard({ articleId }) {
   return (
     <div className="max-w-[30%]">
       <img
@@ -15,7 +17,9 @@ export default function ArticleCard() {
         space, and revolutionizing access to fresh produce in densely populated
         areas
       </p>
-      <Button className="mt-4 p-3">Read More...</Button>
+      <Button className="mt-4 p-3">
+        <Link to={articleId}> Read More...</Link>
+      </Button>
     </div>
   );
 }

@@ -70,3 +70,40 @@
 .accordin {
   --radix-accordion-content-width: 20px;
 }
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+.ce-block__content {
+  position: relative;
+  max-width: 90%;
+  margin: 0 auto;
+  -webkit-transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease;
+}
+
+.ce-toolbar__content {
+  max-width: 90%;
+  margin: 0 auto;
+  position: relative;
+}

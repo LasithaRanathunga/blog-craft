@@ -26,7 +26,9 @@ export default function Navbar() {
             </NavigationMenuTrigger>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Aricles</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              <Link to="/articles">Aricles</Link>
+            </NavigationMenuTrigger>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>About</NavigationMenuTrigger>
