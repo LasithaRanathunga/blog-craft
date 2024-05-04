@@ -8,6 +8,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -52,14 +53,23 @@ export async function getBlog(id) {
   const docRef = doc(db, "blogs", id);
   const docSnap = await getDoc(docRef);
 
-  console.log(id);
-
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
     return "No such document!";
   }
+}
+
+// update a blog
+// Add a new document in collection "cities"
+export async function updateBlog(id, data) {
+  console.log("called...");
+  console.log(id);
+  const resolved = await setDoc(doc(db, "blogs", id), {
+    timestamp: serverTimestamp(),
+    data: data,
+  });
+  console.log(resolved);
 }

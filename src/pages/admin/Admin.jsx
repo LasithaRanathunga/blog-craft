@@ -1,5 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import { TfiWrite } from "react-icons/tfi";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDraftLine } from "react-icons/ri";
 
 function NavItem({ Icon, path, label }) {
   return (
@@ -21,6 +23,8 @@ export default function Admin() {
           Logo
         </div>
         <NavItem label="New Article" Icon={TfiWrite} path="new-article" />
+        <NavItem label="Edit Article" Icon={FaRegEdit} path="edit-article" />
+        <NavItem label="Drafts" Icon={RiDraftLine} path="edit-article" />
       </nav>
       <main className=" w-[80%] m-4">
         <Outlet />

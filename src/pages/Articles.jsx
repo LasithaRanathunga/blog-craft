@@ -12,7 +12,13 @@ export default function Articles() {
     <section className="px-20 mx-auto max-w-screen-xl">
       <div className="flex justify-between items-top w-full mt-12">
         {articles.map((article) => {
-          return <ArticleCard articleId={article.id} key={article.id} />;
+          return (
+            <ArticleCard
+              articleId={article.id}
+              isEditable={false}
+              key={article.id}
+            />
+          );
         })}
         {/* <ArticleCard />
         <ArticleCard />

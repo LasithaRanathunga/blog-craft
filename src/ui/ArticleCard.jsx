@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 
 import { Link } from "react-router-dom";
 
-export default function ArticleCard({ articleId }) {
+export default function ArticleCard({ articleId, isEditable }) {
   return (
-    <div className="max-w-[30%]">
+    <div className={!isEditable ? "max-w-[30%]" : "max-w-[100%]"}>
       <img
         src="https://t4.ftcdn.net/jpg/05/85/03/65/360_F_585036500_u2PzD55XLfS4OY5IbyZNOwCw8mnCmkDP.jpg"
         className="rounded-lg"
@@ -17,9 +17,20 @@ export default function ArticleCard({ articleId }) {
         space, and revolutionizing access to fresh produce in densely populated
         areas
       </p>
-      <Button className="mt-4 p-3">
-        <Link to={articleId}> Read More...</Link>
-      </Button>
+      {!isEditable ? (
+        <Button className="mt-4 p-3">
+          <Link to={articleId}> Read More...</Link>
+        </Button>
+      ) : (
+        <>
+          <Button className="mt-4 p-3 ">
+            <Link to={articleId}>Edit</Link>
+          </Button>
+          <Button className="mt-4 p-3 ml-3">
+            <Link to={articleId}>Preview</Link>
+          </Button>
+        </>
+      )}
     </div>
   );
 }

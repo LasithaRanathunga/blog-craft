@@ -4,6 +4,9 @@ import Admin from "./pages/admin/Admin";
 import Editor from "./pages/admin/Editor";
 import Articles, { getArticles as articlesLoader } from "./pages/Articles";
 import Article, { getArticle as articleLoader } from "./pages/Article";
+import AllArticles from "./pages/admin/AllArticles";
+import EditArticle from "./pages/admin/EditArticle";
+import Preview from "./pages/admin/Preview";
 
 import {
   createBrowserRouter,
@@ -38,7 +41,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-
+  { path: "/preview", element: <Preview /> },
   {
     path: "admin",
     element: <Admin />,
@@ -46,6 +49,18 @@ const router = createBrowserRouter([
       {
         path: "new-article",
         element: <Editor />,
+      },
+      {
+        path: "edit-article",
+        loader: articlesLoader,
+        element: <AllArticles />,
+      },
+      {
+        path: "edit-article/:id",
+        loader: async ({ params }) => {
+          return articleLoader(params.id);
+        },
+        element: <EditArticle />,
       },
     ],
   },

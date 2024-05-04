@@ -46,9 +46,9 @@ export default function Home() {
           <TopStories />
         </div>
         <div className="flex justify-between items-top w-full mt-12">
-          <ArticleCard />
-          <ArticleCard />
-          <ArticleCard />
+          <ArticleCard isEditable={false} />
+          <ArticleCard isEditable={false} />
+          <ArticleCard isEditable={false} />
         </div>
       </section>
     </>
