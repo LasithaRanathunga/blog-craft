@@ -108,3 +108,8 @@ h4 {
   margin: 0 auto;
   position: relative;
 }
+
+.simple-image img {
+  max-width: 100%;
+  margin-bottom: 15px;
+}

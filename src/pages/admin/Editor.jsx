@@ -7,7 +7,7 @@ import Header from "@editorjs/header";
 //import Checklist from "@editorjs/checklist";
 import LinkTool from "@editorjs/link";
 import List from "@editorjs/list";
-import SimpleImage from "@editorjs/simple-image";
+import SimpleImage from "./simleImage";
 
 import { addBlog, updateBlog } from "@/services/firebase/firebase";
 import { Link, useParams } from "react-router-dom";
@@ -21,6 +21,7 @@ export default function Editor({ dataArr }) {
   useEffect(() => {
     if (!ref.current) {
       const editor = new EditorJS({
+        autofocus: true,
         tools: {
           header: {
             class: Header,
@@ -47,13 +48,7 @@ export default function Editor({ dataArr }) {
               defaultStyle: "unordered",
             },
           },
-          image: {
-            class: SimpleImage,
-            inlineToolbar: true,
-            config: {
-              placeholder: "Paste image URL",
-            },
-          },
+          image: SimpleImage,
         },
         data: !dataArr ? null : { time: 1552744582955, blocks: dataArr },
       });

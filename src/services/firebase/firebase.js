@@ -15,7 +15,7 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // put your firebase config here
+  // place your firebase config here
 };
 
 // Initialize Firebase
