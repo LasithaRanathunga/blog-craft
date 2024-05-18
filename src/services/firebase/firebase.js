@@ -9,13 +9,17 @@ import {
   doc,
   getDoc,
   setDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // place your firebase config here
+  // place your firebase configuration here
 };
 
 // Initialize Firebase
@@ -25,9 +29,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // add new blog to the data base
-export async function addBlog(data) {
+export async function addBlog(heading, imgUrl, discription, data) {
   const docRef = await addDoc(collection(db, "blogs"), {
     timestamp: serverTimestamp(),
+    heading: heading,
+    imgUrl: imgUrl,
+    discription: discription,
     data: data,
   });
 
@@ -41,7 +48,6 @@ export async function getBlogs() {
   const postsList = [];
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
     postsList.push({ id: doc.id, ...doc.data() });
   });
 
@@ -63,13 +69,45 @@ export async function getBlog(id) {
 }
 
 // update a blog
-// Add a new document in collection "cities"
+// Add a new document in collection "blogs"
 export async function updateBlog(id, data) {
-  console.log("called...");
-  console.log(id);
   const resolved = await setDoc(doc(db, "blogs", id), {
     timestamp: serverTimestamp(),
     data: data,
   });
   console.log(resolved);
+}
+
+// delete a blog
+export async function deleteBlog(id) {
+  const deleted = await deleteDoc(doc(db, "blogs", id));
+  console.log(deleted);
+}
+
+// import articles order and limit
+export async function getBlogLimit(n) {
+  const q = await query(
+    collection(db, "blogs"),
+    orderBy("timestamp"),
+    limit(n)
+  );
+
+  const blogArr = [];
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+
+    const docData = doc.data();
+
+    blogArr.push({
+      id: doc.id,
+      discription: docData.discription,
+      imgUrl: docData.imgUrl,
+      heading: docData.heading,
+    });
+  });
+
+  return blogArr;
 }

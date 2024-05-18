@@ -1,5 +1,5 @@
 import Root from "./ui/Root";
-import Home from "./pages/Home/Home";
+import Home, { getArticles as homeLoader } from "./pages/Home/Home";
 import Admin from "./pages/admin/Admin";
 import Editor from "./pages/admin/Editor";
 import Articles, { getArticles as articlesLoader } from "./pages/Articles";
@@ -25,6 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "home",
+        loader: homeLoader,
         element: <Home />,
       },
       {

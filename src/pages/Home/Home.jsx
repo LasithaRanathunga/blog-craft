@@ -1,7 +1,12 @@
 import ArticleCard from "@/ui/ArticleCard";
 import TopStories from "./TopStories";
+import { getBlogLimit } from "@/services/firebase/firebase";
+import { useLoaderData } from "react-router-dom";
 
 export default function Home() {
+  const data = useLoaderData();
+  console.log(data);
+
   return (
     <>
       <section className="flex max-w-screen-xl mx-auto justify-between items-center px-20 mt-16">
@@ -41,16 +46,49 @@ export default function Home() {
           Stay ahead of the curve with our latest articles, offering fresh
           perspectives and cutting-edge insights on all things agriculture!
         </p>
-        <div className="flex justify-between items-top w-full mt-14">
-          <ArticleCard />
-          <TopStories />
-        </div>
-        <div className="flex justify-between items-top w-full mt-12">
-          <ArticleCard isEditable={false} />
-          <ArticleCard isEditable={false} />
-          <ArticleCard isEditable={false} />
+        {/* <div className="flex justify-between items-top w-full mt-14"> */}
+        <div className="grid grid-cols-3 gap-x-6 gap-y-16 mt-16">
+          <ArticleCard
+            articleId={data[0].id}
+            imgUrl={data[0].imgUrl}
+            heading={data[0].heading}
+            discription={data[0].discription}
+            isEditable={false}
+          />
+          <div className="col-span-2">
+            <TopStories />
+          </div>
+          {/* </div>
+        <div className="flex justify-between items-top w-full mt-12"> */}
+          <ArticleCard
+            articleId={data[1].id}
+            imgUrl={data[1].imgUrl}
+            heading={data[1].heading}
+            discription={data[1].discription}
+            isEditable={false}
+            className="m-4"
+          />
+          <ArticleCard
+            articleId={data[2].id}
+            imgUrl={data[2].imgUrl}
+            heading={data[2].heading}
+            discription={data[2].discription}
+            isEditable={false}
+          />
+          <ArticleCard
+            articleId={data[3].id}
+            imgUrl={data[3].imgUrl}
+            heading={data[3].heading}
+            discription={data[3].discription}
+            isEditable={false}
+          />
         </div>
       </section>
     </>
   );
+}
+
+export async function getArticles() {
+  const data = await getBlogLimit(4);
+  return data;
 }

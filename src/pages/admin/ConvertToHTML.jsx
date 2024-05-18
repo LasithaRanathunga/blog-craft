@@ -1,6 +1,5 @@
 import EditorJS from "@editorjs/editorjs";
 import { useEffect, useRef, useState } from "react";
-import { Fragment } from "react";
 
 import Header from "@editorjs/header";
 //import Checklist from "@editorjs/checklist";
@@ -105,14 +104,14 @@ export default function ConvertToHTML({ dataArr }) {
   }
 
   return (
-    <Fragment className="h-vh">
+    <div className="h-vh">
       <div id="editorjs" className="hidden"></div>
-      {isReady ? console.log(show()) : null}
+      {isReady && !htmlData ? console.log(show()) : null}
       {htmlData ? (
         <section dangerouslySetInnerHTML={{ __html: htmlData }}></section>
       ) : (
         "Loading"
       )}
-    </Fragment>
+    </div>
   );
 }

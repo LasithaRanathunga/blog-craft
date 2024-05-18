@@ -10,12 +10,15 @@ export default function Articles() {
 
   return (
     <section className="px-20 mx-auto max-w-screen-xl">
-      <div className="flex justify-between items-top w-full mt-12">
+      <div className="grid grid-cols-3 gap-4 w-full mt-12">
         {articles.map((article) => {
           return (
             <ArticleCard
               articleId={article.id}
               isEditable={false}
+              imgUrl={article.imgUrl}
+              discription={article.discription}
+              heading={article.heading}
               key={article.id}
             />
           );
@@ -30,6 +33,5 @@ export default function Articles() {
 
 export async function getArticles() {
   const blogs = await getBlogs();
-  console.log(blogs);
   return blogs;
 }

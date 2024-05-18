@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import EditorJS from "@editorjs/editorjs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Fragment } from "react";
 
 import Header from "@editorjs/header";
@@ -17,6 +17,10 @@ import edjsHTML from "editorjs-html";
 export default function Editor({ dataArr }) {
   const ref = useRef(null);
   const { id } = useParams();
+
+  const [heading, setHeading] = useState();
+  const [url, setUrl] = useState();
+  const [discription, setDiscription] = useState();
 
   useEffect(() => {
     if (!ref.current) {
@@ -67,7 +71,7 @@ export default function Editor({ dataArr }) {
     ref.current
       .save()
       .then((outputData) => {
-        addBlog(outputData.blocks);
+        addBlog(heading, url, discription, outputData.blocks);
         // const edjsParser = edjsHTML();
         // const HTML = edjsParser.parse(outputData.blocks);
         // // returns array of html strings per block
@@ -113,7 +117,42 @@ export default function Editor({ dataArr }) {
   }
 
   return (
-    <Fragment className="h-vh">
+    <Fragment className="h-vh overflow-auto">
+      <form>
+        <div className="flex flex-col">
+          <label htmlFor="heading">Heading</label>
+          <input
+            type="text"
+            id="heading"
+            name="heading"
+            value={heading}
+            onChange={(e) => setHeading(e.target.value)}
+            className="h-10 w-full border-gray-300 border-2 rounded p-4"
+          />
+        </div>
+        <div className="flex flex-col mt-3">
+          <label htmlFor="url">Image URL</label>
+          <input
+            type="text"
+            name="url"
+            id="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="h-10 w-full border-gray-300 border-2 rounded p-4"
+          />
+        </div>
+        <div className="flex flex-col mt-3 mb-3">
+          <label htmlFor="discription">Discription</label>
+          <textarea
+            name="discription"
+            id="discription"
+            value={discription}
+            onChange={(e) => setDiscription(e.target.value)}
+            className="h-36 w-full border-gray-300 border-2 rounded p-4"
+          />
+        </div>
+      </form>
+      <label>Content</label>
       <div
         id="editorjs"
         className="border-gray-200 border-2 rounded-md h-5/6 overflow-auto"
