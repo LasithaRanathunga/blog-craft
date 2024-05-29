@@ -19,7 +19,7 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // place your firebase configuration here
+  // put your firebase configuration here
 };
 
 // Initialize Firebase
@@ -70,9 +70,12 @@ export async function getBlog(id) {
 
 // update a blog
 // Add a new document in collection "blogs"
-export async function updateBlog(id, data) {
+export async function updateBlog(id, heading, imgUrl, discription, data) {
   const resolved = await setDoc(doc(db, "blogs", id), {
     timestamp: serverTimestamp(),
+    heading: heading,
+    imgUrl: imgUrl,
+    discription: discription,
     data: data,
   });
   console.log(resolved);

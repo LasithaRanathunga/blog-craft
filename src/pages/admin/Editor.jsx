@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import EditorJS from "@editorjs/editorjs";
 import { useEffect, useRef, useState } from "react";
-import { Fragment } from "react";
-
 import Header from "@editorjs/header";
 //import Checklist from "@editorjs/checklist";
 import LinkTool from "@editorjs/link";
@@ -14,13 +12,14 @@ import { Link, useParams } from "react-router-dom";
 
 import edjsHTML from "editorjs-html";
 
-export default function Editor({ dataArr }) {
+export default function Editor({ dataArr, otherData }) {
   const ref = useRef(null);
+  const LinkRef = useRef(null);
   const { id } = useParams();
 
-  const [heading, setHeading] = useState();
-  const [url, setUrl] = useState();
-  const [discription, setDiscription] = useState();
+  const [heading, setHeading] = useState(otherData.heading || null);
+  const [url, setUrl] = useState(otherData.imgUrl || null);
+  const [discription, setDiscription] = useState(otherData.discription || null);
 
   useEffect(() => {
     if (!ref.current) {
@@ -86,30 +85,42 @@ export default function Editor({ dataArr }) {
     ref.current
       .save()
       .then((outputData) => {
-        updateBlog(id, outputData.blocks);
+        updateBlog(id, heading, url, discription, outputData.blocks);
         // const edjsParser = edjsHTML();
         // const HTML = edjsParser.parse(outputData.blocks);
         // // returns array of html strings per block
         // console.log(HTML);
       })
       .catch((error) => {
-        console.log("Saving failed: ", error);
+        console.log("Update failed: ", error);
       });
   }
 
-  function show() {
+  function preview() {
     ref.current
       .save()
       .then((outputData) => {
-        let innerHTML = "";
+        //LinkDataRef.current = outputData.blocks;
 
-        const edjsParser = edjsHTML();
-        const HTML = edjsParser.parse(outputData);
-        // returns array of html strings per block
+        const reviewPageData = {
+          heading: heading,
+          imgUrl: url,
+          data: outputData.blocks,
+        };
 
-        HTML.forEach((element) => {
-          innerHTML += element;
-        });
+        localStorage.setItem("reviewPageData", JSON.stringify(reviewPageData));
+
+        LinkRef.current.click();
+
+        // let innerHTML = "";
+
+        // const edjsParser = edjsHTML();
+        // const HTML = edjsParser.parse(outputData);
+        // // returns array of html strings per block
+
+        // HTML.forEach((element) => {
+        //   innerHTML += element;
+        // });
       })
       .catch((error) => {
         console.log("Saving failed: ", error);
@@ -117,7 +128,7 @@ export default function Editor({ dataArr }) {
   }
 
   return (
-    <Fragment className="h-vh overflow-auto">
+    <div className="h-vh overflow-auto">
       <form>
         <div className="flex flex-col">
           <label htmlFor="heading">Heading</label>
@@ -163,10 +174,23 @@ export default function Editor({ dataArr }) {
         ) : (
           <Button onClick={update}>Update</Button>
         )}
-        <Button onClick={show} className="ml-4">
-          <Link to="/preview"></Link>Preview
+        <Button onClick={preview} className="ml-4">
+          Preview
         </Button>
+        <Link
+          className="hidden"
+          ref={LinkRef}
+          to="/preview"
+          // state={
+          //     {
+          //     heading: heading,
+          //     imgUrl: url,
+          //     data: { ...LinkDataRef.current },
+          //   }
+          // }
+          target="_blank"
+        ></Link>
       </div>
-    </Fragment>
+    </div>
   );
 }

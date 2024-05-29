@@ -6,7 +6,7 @@ import Articles, { getArticles as articlesLoader } from "./pages/Articles";
 import Article, { getArticle as articleLoader } from "./pages/Article";
 import AllArticles from "./pages/admin/AllArticles";
 import EditArticle from "./pages/admin/EditArticle";
-import Preview from "./pages/admin/Preview";
+import Preview, { getData as previewLoader } from "./pages/admin/Preview";
 
 import {
   createBrowserRouter,
@@ -40,9 +40,10 @@ const router = createBrowserRouter([
         },
         element: <Article />,
       },
+      { path: "/preview", loader: previewLoader, element: <Preview /> },
     ],
   },
-  { path: "/preview", element: <Preview /> },
+
   {
     path: "admin",
     element: <Admin />,
@@ -68,7 +69,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      {/* <AlertDialogPortal /> */}
+    </>
+  );
 }
 
 export default App;
