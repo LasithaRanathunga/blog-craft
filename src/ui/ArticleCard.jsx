@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function ArticleCard({
   articleId,
   isEditable,
-  deleteArticle,
+  confirmDelete,
   imgUrl,
   heading,
   discription,
@@ -30,7 +30,7 @@ export default function ArticleCard({
           <Button
             variant="destructive"
             className="mt-4 p-3 ml-3 "
-            onClick={() => deleteArticle(articleId)}
+            onClick={() => confirmDelete(articleId)}
           >
             Delete
           </Button>

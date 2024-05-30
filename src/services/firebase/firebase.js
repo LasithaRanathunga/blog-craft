@@ -19,7 +19,7 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // put your firebase configuration here
+  // place your firebase configuration here
 };
 
 // Initialize Firebase
@@ -38,7 +38,11 @@ export async function addBlog(heading, imgUrl, discription, data) {
     data: data,
   });
 
-  console.log("Document written with ID: ", docRef.id);
+  if (docRef.id) {
+    console.log("Document written with ID: ", docRef.id);
+  } else {
+    throw new Error("ooops! Somethis went wrong");
+  }
 }
 
 // get all blogs

@@ -6,9 +6,10 @@ import Header from "@editorjs/header";
 import LinkTool from "@editorjs/link";
 import List from "@editorjs/list";
 import SimpleImage from "./simleImage";
+import AlertOverlay from "@/ui/AlertOverlay";
 
 import { addBlog, updateBlog } from "@/services/firebase/firebase";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import edjsHTML from "editorjs-html";
 
@@ -16,10 +17,14 @@ export default function Editor({ dataArr, otherData }) {
   const ref = useRef(null);
   const LinkRef = useRef(null);
   const { id } = useParams();
+  const [aletVisibility, setAlertVisibility] = useState(false);
+  const [alertData, setAlertData] = useState();
 
-  const [heading, setHeading] = useState(otherData.heading || null);
-  const [url, setUrl] = useState(otherData.imgUrl || null);
-  const [discription, setDiscription] = useState(otherData.discription || null);
+  const [heading, setHeading] = useState(otherData?.heading || "");
+  const [url, setUrl] = useState(otherData?.imgUrl || "");
+  const [discription, setDiscription] = useState(otherData?.discription || "");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!ref.current) {
@@ -66,11 +71,40 @@ export default function Editor({ dataArr, otherData }) {
     };
   }, [dataArr]);
 
+  function closeAndNavigate(url) {
+    setAlertVisibility(false);
+    navigate(url);
+  }
+
   function save() {
     ref.current
       .save()
-      .then((outputData) => {
-        addBlog(heading, url, discription, outputData.blocks);
+      .then(async (outputData) => {
+        try {
+          await addBlog(heading, url, discription, outputData.blocks);
+
+          setAlertData({
+            title: "Articled added",
+            discription:
+              "new articles successfully added to the data base. go to the adit article tab to do any changes ",
+            cancelBtnName: "ok",
+            cancelBtnHandler: () => closeAndNavigate("/admin/edit-article"),
+            actionBtnName: null,
+            actionBtnHandler: null,
+          });
+          setAlertVisibility(true);
+        } catch (err) {
+          console.log(err.message);
+          setAlertVisibility(true);
+          setAlertData({
+            title: "Error",
+            discription: err.message,
+            cancelBtnName: "ok",
+            cancelBtnHandler: () => setAlertVisibility(false),
+            actionBtnName: null,
+            actionBtnHandler: null,
+          });
+        }
         // const edjsParser = edjsHTML();
         // const HTML = edjsParser.parse(outputData.blocks);
         // // returns array of html strings per block
@@ -84,8 +118,30 @@ export default function Editor({ dataArr, otherData }) {
   function update() {
     ref.current
       .save()
-      .then((outputData) => {
-        updateBlog(id, heading, url, discription, outputData.blocks);
+      .then(async (outputData) => {
+        try {
+          await updateBlog(id, heading, url, discription, outputData.blocks);
+          setAlertData({
+            title: "Articled Updated",
+            discription: "changes have been saved to the data base",
+            cancelBtnName: "ok",
+            cancelBtnHandler: () => closeAndNavigate("/admin/edit-article"),
+            actionBtnName: null,
+            actionBtnHandler: null,
+          });
+          setAlertVisibility(true);
+        } catch (err) {
+          console.log(err.message);
+          setAlertVisibility(true);
+          setAlertData({
+            title: "Error",
+            discription: err.message,
+            cancelBtnName: "ok",
+            cancelBtnHandler: setAlertVisibility,
+            actionBtnName: null,
+            actionBtnHandler: null,
+          });
+        }
         // const edjsParser = edjsHTML();
         // const HTML = edjsParser.parse(outputData.blocks);
         // // returns array of html strings per block
@@ -191,6 +247,7 @@ export default function Editor({ dataArr, otherData }) {
           target="_blank"
         ></Link>
       </div>
+      {aletVisibility ? <AlertOverlay alertData={alertData} /> : null}
     </div>
   );
 }

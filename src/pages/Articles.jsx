@@ -6,8 +6,6 @@ import { useLoaderData } from "react-router-dom";
 export default function Articles() {
   const articles = useLoaderData();
 
-  console.log(articles);
-
   return (
     <section className="px-20 mx-auto max-w-screen-xl">
       <div className="grid grid-cols-3 gap-4 w-full mt-12">

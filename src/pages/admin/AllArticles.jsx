@@ -1,16 +1,38 @@
 import ArticleCard from "@/ui/ArticleCard";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { deleteBlog } from "@/services/firebase/firebase";
+import { useState } from "react";
+import AlertOverlay from "@/ui/AlertOverlay";
 
 export default function AllArticles() {
   const blogs = useLoaderData();
-  console.log(blogs);
   const navigate = useNavigate();
 
+  const [aletVisibility, setAlertVisibility] = useState(false);
+  const [alertData, setAlertData] = useState();
+
   async function deleteArticle(id) {
-    console.log("called");
-    await deleteBlog(id);
-    navigate(0);
+    console.log("called", id);
+    try {
+      await deleteBlog(id);
+      navigate(0);
+      setAlertVisibility(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function confirmDelete(id) {
+    setAlertData({
+      title: "Articled added",
+      discription:
+        "new articles successfully added to the data base. go to the adit article tab to do any changes ",
+      cancelBtnName: "cancel",
+      cancelBtnHandler: () => setAlertVisibility(false),
+      actionBtnName: "confirm",
+      actionBtnHandler: () => deleteArticle(id),
+    });
+    setAlertVisibility(true);
   }
 
   return (
@@ -24,10 +46,11 @@ export default function AllArticles() {
             discription={blog.discription}
             heading={blog.heading}
             key={blog.id}
-            deleteArticle={deleteArticle}
+            confirmDelete={confirmDelete}
           />
         );
       })}
+      {aletVisibility ? <AlertOverlay alertData={alertData} /> : null}
     </section>
   );
 }
