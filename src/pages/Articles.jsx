@@ -8,7 +8,7 @@ export default function Articles() {
 
   return (
     <section className="px-20 mx-auto max-w-screen-xl">
-      <div className="grid grid-cols-3 gap-4 w-full mt-12">
+      <div className="md:grid lg:grid-cols-3 md:grid-cols-2 gap-4 lg:w-full   mt-12 text-center">
         {articles.map((article) => {
           return (
             <ArticleCard

@@ -8,8 +8,8 @@ export default function Article() {
 
   return (
     <div>
-      <div className="max-w-4xl mx-auto">
-        <h1>{data.heading}</h1>
+      <div className="max-w-4xl mx-auto lg:px-0 px-10">
+        <h1 className="lg:text-3xl text-2xl">{data.heading}</h1>
         <img
           src={data.imgUrl}
           alt="banner image"

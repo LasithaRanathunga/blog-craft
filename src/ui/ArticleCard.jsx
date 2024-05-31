@@ -11,7 +11,7 @@ export default function ArticleCard({
   discription,
 }) {
   return (
-    <div className={"max-w-[100%]"}>
+    <div className={"max-w-[100%] mb-10 lg:mb-0"}>
       <img src={imgUrl} className="rounded-lg" />
       <h3 className="font-semibold mt-6 mb-2 text-lg">{heading}</h3>
       <p className="text-xs text-gray-500 font-medium">{discription}</p>

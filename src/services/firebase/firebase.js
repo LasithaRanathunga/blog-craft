@@ -19,7 +19,12 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // place your firebase configuration here
+  apiKey: "AIzaSyCX3hXSjaVa6drWK4xXlR262UZ70Xg7bgw",
+  authDomain: "blog-project-f941a.firebaseapp.com",
+  projectId: "blog-project-f941a",
+  storageBucket: "blog-project-f941a.appspot.com",
+  messagingSenderId: "616490757360",
+  appId: "1:616490757360:web:981cb798842f2091b16635",
 };
 
 // Initialize Firebase
@@ -104,7 +109,7 @@ export async function getBlogLimit(n) {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
+    //console.log(doc.id, " => ", doc.data());
 
     const docData = doc.data();
 
