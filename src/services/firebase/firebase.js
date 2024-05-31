@@ -14,17 +14,14 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCX3hXSjaVa6drWK4xXlR262UZ70Xg7bgw",
-  authDomain: "blog-project-f941a.firebaseapp.com",
-  projectId: "blog-project-f941a",
-  storageBucket: "blog-project-f941a.appspot.com",
-  messagingSenderId: "616490757360",
-  appId: "1:616490757360:web:981cb798842f2091b16635",
+  // plce your firebase configue here
 };
 
 // Initialize Firebase
@@ -122,4 +119,20 @@ export async function getBlogLimit(n) {
   });
 
   return blogArr;
+}
+
+const auth = getAuth();
+export function login(email, password, onSuccess) {
+  console.log("called");
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log(user);
+      onSuccess();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 }

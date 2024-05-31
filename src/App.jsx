@@ -1,12 +1,13 @@
 import Root from "./ui/Root";
 import Home, { getArticles as homeLoader } from "./pages/Home/Home";
-import Admin from "./pages/admin/Admin";
+import Admin, { isLogin as adminLoader } from "./pages/admin/Admin";
 import Editor from "./pages/admin/Editor";
 import Articles, { getArticles as articlesLoader } from "./pages/Articles";
 import Article, { getArticle as articleLoader } from "./pages/Article";
 import AllArticles from "./pages/admin/AllArticles";
 import EditArticle from "./pages/admin/EditArticle";
 import Preview, { getData as previewLoader } from "./pages/admin/Preview";
+import Login from "./pages/Login";
 
 import {
   createBrowserRouter,
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
 
   {
     path: "admin",
+    loader: adminLoader,
     element: <Admin />,
     children: [
       {
@@ -65,6 +67,10 @@ const router = createBrowserRouter([
         element: <EditArticle />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
